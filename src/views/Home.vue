@@ -1,18 +1,32 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <div class="headline text-center">
+      Attempt to implement billing on aiohttp
+    </div>
+    <v-chip
+      v-for="currency in currencies"
+      :key="currency.id"
+      outlined
+      color="primary"
+    >
+      <v-avatar>
+        <span>{{currency.symbol}}</span>
+      </v-avatar>
+      {{currency.title}}
+    </v-chip>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'home',
-  components: {
-    HelloWorld,
+  components: {},
+  computed: {
+    ...mapGetters([
+      'currencies',
+    ]),
   },
 };
 </script>
