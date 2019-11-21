@@ -8,7 +8,13 @@
       :items="userWallets"
       :items-per-page="5"
       class="elevation-1"
-    ></v-data-table>
+    >
+      <template v-slot:item.history="{ item }">
+        <v-btn text small link :to="`/history/${item.id}`">
+          <v-icon>mdi-history</v-icon>
+        </v-btn>
+      </template>
+    </v-data-table>
   </div>
 </template>
 
@@ -23,6 +29,7 @@ export default {
       { text: 'Currency', value: 'title' },
       { text: 'Wallet', value: 'account' },
       { text: 'Balance', value: 'balance' },
+      { text: 'History', value: 'history', sortable: false },
     ],
     desserts: [],
   }),

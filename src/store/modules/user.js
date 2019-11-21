@@ -75,7 +75,7 @@ const user = {
 
     UserWallets: async ({ commit }) => {
       console.log('[UserWallets]');
-      const response = await request('/wallets');
+      const response = await request('/wallets/user');
       await commit('SET_USER_WALLETS', response);
       console.log('[UserWallets] response: ', JSON.stringify(response));
     },

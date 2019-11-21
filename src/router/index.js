@@ -34,6 +34,12 @@ const routes = [
     name: 'transaction',
     component: () => import('../views/Transaction.vue'),
   },
+  {
+    path: '/history/:id',
+    name: 'history',
+    props: true,
+    component: () => import('../views/History.vue'),
+  },
 ];
 
 const router = new VueRouter({

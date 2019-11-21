@@ -54,6 +54,14 @@
             <v-list-item-title>Transaction</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item v-if="userEmail" link to="/history">
+          <v-list-item-action>
+            <v-icon>mdi-history</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>History</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
@@ -65,7 +73,7 @@
       <v-toolbar-title>Billing</v-toolbar-title>
       <v-spacer></v-spacer>
       <div>{{userEmail}}</div>
-      <v-btn v-if="userEmail" @click.stop="signOut()">SignOut</v-btn>
+      <v-btn outlined v-if="userEmail" @click.stop="signOut()">SignOut</v-btn>
     </v-app-bar>
 
     <v-content>

@@ -60,9 +60,9 @@
       </v-alert>
     </v-card-text>
     <v-card-actions>
-      <v-btn text @click="clear">Clear</v-btn>
+      <v-btn outlined @click="clear">Clear</v-btn>
       <v-spacer></v-spacer>
-      <v-btn text @click="transfer">Transfer</v-btn>
+      <v-btn outlined @click="transfer">Transfer</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -81,10 +81,6 @@ export default {
     walletRules: [
       v => !!v || 'Wallet is required',
     ],
-    // amountRules: [
-    //   v => !!v || 'Amount is required',
-    //   v => /^\d*[,.]?\d*$/.test(v) || 'Amount must be float',
-    // ],
   }),
   computed: {
     ...mapGetters([
@@ -92,9 +88,6 @@ export default {
       'allWallets',
       'fee',
     ]),
-    // title() {
-    //   return this.myself ? 'Your wallets' : 'All wallets';
-    // },
     amountRules() {
       const wallet = this.userWallets.find(elem => elem.account === this.from);
       return [
