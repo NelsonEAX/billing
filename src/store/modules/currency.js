@@ -5,12 +5,14 @@ const currency = {
     settings: [],
     currencies: [],
     wallets: [],
+    rates: [],
   },
 
   getters: {
     currencies: state => state.currencies,
     allWallets: state => state.wallets,
     fee: state => state.settings.fee,
+    rates: state => state.rates,
   },
 
   mutations: {
@@ -19,6 +21,9 @@ const currency = {
     },
     SET_CURRENCIES: (state, payload) => {
       state.currencies = payload.currencies || state.currencies;
+    },
+    SET_RATES: (state, payload) => {
+      state.rates = payload.rates || state.rates;
     },
     SET_ALL_WALLETS: (state, payload) => {
       state.wallets = payload.wallets || state.wallets;
@@ -38,6 +43,13 @@ const currency = {
       const response = await request('/currencies');
       await commit('SET_CURRENCIES', response);
       console.log('[Currencies] response: ', JSON.stringify(response));
+    },
+
+    Rates: async ({ commit }) => {
+      console.log('[Rates]');
+      const response = await request('/rates');
+      await commit('SET_RATES', response);
+      console.log('[Rates] response: ', JSON.stringify(response));
     },
 
     AllWallets: async ({ commit }) => {

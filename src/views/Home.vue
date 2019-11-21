@@ -14,6 +14,9 @@
       </v-avatar>
       {{currency.title}}
     </v-chip>
+    <div class="headline text-center">
+      {{rates.from}} {{rates.to}} {{rates.percent}}
+    </div>
   </div>
 </template>
 
@@ -26,6 +29,7 @@ export default {
   computed: {
     ...mapGetters([
       'currencies',
+      'rates',
     ]),
   },
 };

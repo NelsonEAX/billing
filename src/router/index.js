@@ -35,10 +35,17 @@ const routes = [
     component: () => import('../views/Transaction.vue'),
   },
   {
-    path: '/history/:id',
+    path: '/history',
     name: 'history',
-    props: true,
     component: () => import('../views/History.vue'),
+    children: [
+      {
+        // при совпадении пути с шаблоном /history/:id
+        path: ':id',
+        props: true,
+        component: () => import('../views/Table.vue'),
+      },
+    ],
   },
 ];
 

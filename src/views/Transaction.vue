@@ -1,10 +1,10 @@
 <template>
   <v-card
     class="mx-auto"
-    max-width="344"
+    max-width="350"
     outlined
   >
-    <v-list-item three-line>
+    <v-list-item>
       <v-list-item-content>
         <div class="overline mb-4">Transaction</div>
         <v-tabs fixed-tabs>

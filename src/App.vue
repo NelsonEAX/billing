@@ -118,6 +118,7 @@ export default {
     // this.$vuetify.theme.dark = true;
     this.$store.dispatch('Settings');
     this.$store.dispatch('Currencies');
+    this.$store.dispatch('Rates');
     this.$store.dispatch('CheckSession');
   },
   methods: {
