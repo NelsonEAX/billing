@@ -8,8 +8,8 @@
       <v-list-item-content>
         <div class="overline mb-4">Transaction</div>
         <v-tabs fixed-tabs>
-          <v-tab @click.stop="myself = true">my wallets</v-tab>
-          <v-tab @click.stop="myself = false">all wallets</v-tab>
+          <v-tab @click.stop="selfWallet = true">my wallets</v-tab>
+          <v-tab @click.stop="selfWallet = false">all wallets</v-tab>
         </v-tabs>
         <v-list-item-subtitle>{{description}}</v-list-item-subtitle>
       </v-list-item-content>
@@ -43,7 +43,7 @@
           v-model="amount"
           :rules="amountRules"
           label="Transfer amount"
-          :prefix="prefix"
+          :prefix="prefixFrom"
           type="number"
           min="0"
           dense
@@ -55,8 +55,9 @@
         text
         color="info"
       >
-        <div>Сommission will be: {{commission}}{{prefix}}</div>
-        <div>Will be charged: {{total}}{{prefix}}</div>
+        <div>Сommission will be: {{commission}}{{prefixFrom}}</div>
+        <div>Will be charged: {{totalFrom}}{{prefixFrom}}</div>
+        <div>Will be credited: {{totalTo}}{{prefixTo}}</div>
       </v-alert>
     </v-card-text>
     <v-card-actions>
@@ -73,7 +74,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'Transaction',
   data: () => ({
-    myself: true,
+    selfWallet: true,
     valid: true,
     from: '',
     to: '',
@@ -86,6 +87,7 @@ export default {
     ...mapGetters([
       'userWallets',
       'allWallets',
+      'rates',
       'fee',
     ]),
     amountRules() {
@@ -93,16 +95,15 @@ export default {
       return [
         v => !!v || 'Amount is required',
         v => /^\d*[,.]?\d*$/.test(v) || 'Amount must be float',
-        () => (wallet ? parseFloat(this.total) <= parseFloat(wallet.balance) : true) || 'More than account',
+        () => (wallet ? parseFloat(this.totalFrom) <= parseFloat(wallet.balance) : true) || 'More than account',
       ];
     },
     description() {
-      return this.myself ? 'Transfer between your accounts with conversion, no commission'
+      return this.selfWallet ? 'Transfer between your accounts with conversion, no commission'
         : 'Transfer with conversion to another person’s account with a commission';
     },
-    prefix() {
-      const wallet = this.userWallets.find(elem => elem.account === this.from);
-      return wallet ? wallet.symbol : '';
+    walletsSource() {
+      return this.selfWallet ? this.userWallets : this.allWallets;
     },
     walletsFrom() {
       // Show only accounts with a positive balance
@@ -110,15 +111,27 @@ export default {
     },
     walletsTo() {
       // Show all accounts, except for the one selected as the sender
-      const sourceWallets = this.myself ? this.userWallets : this.allWallets;
-      return sourceWallets.filter(wallet => this.from !== wallet.account);
+      return this.walletsSource.filter(wallet => this.from !== wallet.account);
+    },
+    prefixFrom() {
+      const wallet = this.userWallets.find(elem => elem.account === this.from);
+      return wallet ? wallet.symbol : '';
+    },
+    prefixTo() {
+      const wallet = this.walletsSource.find(elem => elem.account === this.to);
+      return wallet ? wallet.symbol : '';
+    },
+    totalFrom() {
+      return parseFloat(this.amount) + parseFloat(this.commission) || 0;
+    },
+    totalTo() {
+      const wallet = this.walletsSource.find(elem => elem.account === this.to);
+      console.log('wallet___________', wallet, this.to);
+      return parseFloat(this.amount) + parseFloat(this.commission) || 0;
     },
     commission() {
       const wallet = this.userWallets.find(elem => elem.account === this.to);
       return wallet ? 0 : this.amount * this.fee * 0.01;
-    },
-    total() {
-      return parseFloat(this.amount) + parseFloat(this.commission);
     },
   },
   methods: {
