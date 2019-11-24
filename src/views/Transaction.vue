@@ -4,7 +4,7 @@
     max-width="350"
     outlined
   >
-    <v-list-item>
+    <v-list-item three-line>
       <v-list-item-content>
         <div class="overline mb-4">Transaction</div>
         <v-tabs fixed-tabs>
@@ -125,9 +125,22 @@ export default {
       return parseFloat(this.amount) + parseFloat(this.commission) || 0;
     },
     totalTo() {
-      const wallet = this.walletsSource.find(elem => elem.account === this.to);
-      console.log('wallet___________', wallet, this.to);
-      return parseFloat(this.amount) + parseFloat(this.commission) || 0;
+      if (this.from === '' || this.to === '') {
+        return 0;
+      }
+
+      const walletFrom = this.userWallets.find(elem => elem.account === this.from);
+      const walletTo = this.walletsSource.find(elem => elem.account === this.to);
+
+      if (walletFrom.currency === walletTo.currency) {
+        return parseFloat(this.amount);
+      }
+
+      const rate = this.rates.find((elem) => {
+        console.log('asd');
+        return walletFrom.currency === elem.from && walletTo.currency === elem.to;
+      });
+      return parseFloat(this.amount) * parseFloat(rate.percent) || 0;
     },
     commission() {
       const wallet = this.userWallets.find(elem => elem.account === this.to);

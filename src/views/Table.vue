@@ -15,7 +15,12 @@
 <script>
 export default {
   name: 'Table',
-  props: ['id'],
+  props: {
+    id: {
+      type: String,
+      default: '',
+    },
+  },
 };
 </script>
 
