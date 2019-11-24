@@ -15,7 +15,7 @@
         :items-per-page="5"
       >
         <template v-slot:item.history="{ item }">
-          <v-btn text small link :to="`/history/${item.id}`">
+          <v-btn text small link :to="`/history/${item.account}`">
             <v-icon>mdi-history</v-icon>
           </v-btn>
         </template>

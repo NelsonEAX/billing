@@ -6,6 +6,7 @@ const currency = {
     currencies: [],
     wallets: [],
     rates: [],
+    history: [],
   },
 
   getters: {
@@ -13,6 +14,7 @@ const currency = {
     allWallets: state => state.wallets,
     fee: state => state.settings.fee,
     rates: state => state.rates,
+    history: state => state.history,
   },
 
   mutations: {
@@ -27,6 +29,9 @@ const currency = {
     },
     SET_ALL_WALLETS: (state, payload) => {
       state.wallets = payload.wallets || state.wallets;
+    },
+    SET_HISTORY: (state, payload) => {
+      state.history = payload.history || state.history;
     },
   },
 
@@ -50,6 +55,13 @@ const currency = {
       const response = await request('/rates');
       await commit('SET_RATES', response);
       console.log('[Rates] response: ', JSON.stringify(response));
+    },
+
+    History: async ({ commit }, payload) => {
+      console.log('[History]');
+      const response = await request('/history', payload);
+      await commit('SET_HISTORY', response);
+      console.log('[History] response: ', JSON.stringify(response));
     },
 
     AllWallets: async ({ commit }) => {

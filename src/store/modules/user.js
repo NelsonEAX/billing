@@ -40,7 +40,7 @@ const user = {
   actions: {
     ForAuthorized: async ({ commit, dispatch }, payload) => {
       console.log('[ForAuthorized]', payload);
-      await commit('SET_USER_INFO', payload.user);
+      await commit('SET_USER_INFO', payload.user || {});
       await dispatch('UserWallets');
       await dispatch('AllWallets');
     },

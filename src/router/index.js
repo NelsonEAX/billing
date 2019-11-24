@@ -37,11 +37,12 @@ const routes = [
   {
     path: '/history',
     name: 'history',
+    props: true,
     component: () => import('../views/History.vue'),
     children: [
       {
         // при совпадении пути с шаблоном /history/:id
-        path: ':id',
+        path: ':wallet(\\d{20})',
         props: true,
         component: () => import('../views/Table.vue'),
       },
