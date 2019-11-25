@@ -77,7 +77,7 @@ export default {
   name: 'SignUp',
   data: () => ({
     valid: true,
-    email: 'user4@example.com',
+    email: 'user6@example.com',
     pass: '12345678',
     confirm: '12345678',
     name: 'Иван',
